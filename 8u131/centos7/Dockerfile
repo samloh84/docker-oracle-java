@@ -19,7 +19,6 @@ ARG JCE_POLICY_ZIP_JAR_GLOB=UnlimitedJCEPolicyJDK8/*.jar
 USER ${ROOT_UID}
 
 RUN \
-TEMP_DIR=/tmp/${VENDOR}-${PRODUCT}/${PRODUCT_VERSION} && \
 yum-install unzip && \
 mkdir -p ${TEMP_DIR} && \
 pushd ${TEMP_DIR} && \
