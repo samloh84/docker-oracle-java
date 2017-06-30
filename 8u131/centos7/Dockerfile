@@ -35,6 +35,6 @@ popd && \
 rm -rf ${TEMP_DIR_ROOT}
 
 ENV JAVA_HOME ${INSTALL_DIR}
-ENV PATH ${PATH}:${JAVA_HOME}/bin:${JAVA_HOME}/jre/bin
+ENV PATH ${JAVA_HOME}/bin:${JAVA_HOME}/jre/bin:${PATH}
 
 USER ${APP_UID}
