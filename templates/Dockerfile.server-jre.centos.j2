@@ -1,0 +1,50 @@
+FROM samloh84/centos:7
+
+ARG VENDOR=oracle
+ARG PRODUCT={{ product }}
+ARG PRODUCT_VERSION={{ version }}
+ARG TEMP_DIR_ROOT=/tmp/${VENDOR}-${PRODUCT}
+ARG TEMP_DIR=/${TEMP_DIR_ROOT}/${PRODUCT_VERSION}
+ARG INSTALL_DIR_ROOT=/usr/java
+ARG INSTALL_DIR=${INSTALL_DIR_ROOT}/server-jre1.{{ version_info['major'] }}.0_{{ version_info['minor'] }}
+ARG ORACLE_USERNAME
+ARG ORACLE_PASSWORD
+
+{%- if files['linux-x64']['.tar.gz'] %}
+ARG SERVER_JRE_INSTALL_TAR_GZ_URL={{ files['linux-x64']['.tar.gz']['url'] }}
+ARG SERVER_JRE_INSTALL_TAR_GZ={{ files['linux-x64']['.tar.gz']['filename'] }}
+{% endif %}
+ARG JCE_POLICY_ZIP_URL={{ jce_files['.zip']['url'] }}
+ARG JCE_POLICY_ZIP={{ jce_files['.zip']['filename'] }}
+
+USER ${ROOT_UID}
+
+COPY downloader.py ${TEMP_DIR}/
+
+RUN \
+yum-install unzip && \
+mkdir -p ${TEMP_DIR} && \
+pushd ${TEMP_DIR} && \
+{%- if files['linux-x64']['.tar.gz'] %}
+python2 downloader.py \
+--url ${SERVER_JRE_INSTALL_TAR_GZ_URL} \
+--filename ${SERVER_JRE_INSTALL_TAR_GZ} \
+--username ${ORACLE_USERNAME} \
+--password ${ORACLE_PASSWORD} && \
+mkdir -p ${INSTALL_DIR} && \
+tar -xzf ${SERVER_JRE_INSTALL_TAR_GZ} --strip-components=1 -C ${INSTALL_DIR} && \
+{% endif %}
+python2 downloader.py \
+--url ${JCE_POLICY_ZIP_URL} \
+--filename ${JCE_POLICY_ZIP} \
+--username ${ORACLE_USERNAME} \
+--password ${ORACLE_PASSWORD} && \
+unzip -qq ${JCE_POLICY_ZIP} -d ${TEMP_DIR}/jce && \
+find ${TEMP_DIR}/jce -name "*.jar" -print0 | xargs -0 mv -t ${INSTALL_DIR}/jre/lib/security && \
+popd && \
+rm -rf ${TEMP_DIR_ROOT}
+
+ENV JAVA_HOME ${INSTALL_DIR}
+ENV PATH ${JAVA_HOME}/bin:${PATH}
+
+USER ${APP_UID}

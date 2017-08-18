@@ -1,5 +1,5 @@
-REPOSITORY_NAME := samloh84/oracle-jdk
-TAGS := 8u131 8u131-centos7 latest
+REPOSITORY_NAME := {{ repository_name }}
+TAGS := {{ image_tags | join(' ') }}
 CONTAINER_NAME := $(shell echo $(REPOSITORY_NAME) | sed -e 's/[^a-zA-Z0-9_.-]/-/g')
 
 .PHONY: all clean build push bash sudo run exec rm rmi
@@ -7,7 +7,13 @@ CONTAINER_NAME := $(shell echo $(REPOSITORY_NAME) | sed -e 's/[^a-zA-Z0-9_.-]/-/
 
 build:
 	set -x; \
+	if [[ -z "$${ORACLE_USERNAME}" ]]; then \
+	echo "ORACLE_USERNAME is not defined"; exit 1; fi; \
+	if [[ -z "$${ORACLE_PASSWORD}" ]]; then \
+	echo "ORACLE_PASSWORD is not defined"; exit 1; fi; \
 	DOCKER_BUILD_ARGS=""; \
+	DOCKER_BUILD_ARGS+="--build-arg ORACLE_USERNAME=$${ORACLE_USERNAME} "; \
+	DOCKER_BUILD_ARGS+="--build-arg ORACLE_PASSWORD=$${ORACLE_PASSWORD} "; \
 	for TAG in $(TAGS); do DOCKER_BUILD_ARGS+="-t $(REPOSITORY_NAME):$${TAG} "; done; \
 	sudo docker build $${DOCKER_BUILD_ARGS} .
 

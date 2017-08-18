@@ -1,0 +1,8 @@
+repository_name: samloh84/oracle-java
+base_repositories:
+  - samloh84/centos
+#  - samloh84/alpine
+#  - samloh84/debian
+#  - samloh84/ubuntu
+
+min_version: '>=6.0.0'
