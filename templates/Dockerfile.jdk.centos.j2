@@ -10,16 +10,21 @@ ARG INSTALL_DIR=${INSTALL_DIR_ROOT}/jdk1.{{ version_info['major'] }}.0_{{ versio
 ARG ORACLE_USERNAME
 ARG ORACLE_PASSWORD
 
-
-{%- if files['linux-x64']['.rpm'] %}
-ARG JDK_INSTALL_RPM_URL={{ files['linux-x64']['.rpm']['url'] }}
-ARG JDK_INSTALL_RPM={{ files['linux-x64']['.rpm']['filename'] }}
-{% elif files['linux-x64']['-rpm.bin'] %}
-ARG JDK_INSTALL_RPM_BIN_URL={{ files['linux-x64']['-rpm.bin']['url'] }}
-ARG JDK_INSTALL_RPM_BIN={{ files['linux-x64']['-rpm.bin']['filename'] }}
-{% endif %}
-ARG JCE_POLICY_ZIP_URL={{ jce_files['.zip']['url'] }}
-ARG JCE_POLICY_ZIP={{ jce_files['.zip']['filename'] }}
+{%- if version_files['linux-x64']['rpm'] %}
+ARG JDK_INSTALL_RPM_URL={{ version_files['linux-x64']['rpm']['url'] }}
+ARG JDK_INSTALL_RPM={{ version_files['linux-x64']['rpm']['filename'] }}
+{% elif version_files['linux-x64']['tar.gz'] %}
+ARG JDK_INSTALL_TAR_GZ_URL={{ version_files['linux-x64']['tar.gz']['url'] }}
+ARG JDK_INSTALL_TAR_GZ={{ version_files['linux-x64']['tar.gz']['filename'] }}
+{% elif version_files['linux-x64']['-rpm.bin'] %}
+ARG JDK_INSTALL_RPM_BIN_URL={{ version_files['linux-x64']['-rpm.bin']['url'] }}
+ARG JDK_INSTALL_RPM_BIN={{ version_files['linux-x64']['-rpm.bin']['filename'] }}
+{% elif version_files['linux-x64']['bin'] %}
+ARG JDK_INSTALL_BIN_URL={{ version_files['linux-x64']['bin']['url'] }}
+ARG JDK_INSTALL_BIN={{ version_files['linux-x64']['bin']['filename'] }}
+{%- endif %}
+ARG JCE_POLICY_ZIP_URL={{ jce['zip']['url'] }}
+ARG JCE_POLICY_ZIP={{ jce['zip']['filename'] }}
 
 USER ${ROOT_UID}
 
@@ -29,14 +34,14 @@ RUN \
 yum-install unzip && \
 mkdir -p ${TEMP_DIR} && \
 pushd ${TEMP_DIR} && \
-{%- if files['linux-x64']['.rpm'] %}
+{%- if version_files['linux-x64']['rpm'] %}
 python2 downloader.py \
 --url ${JDK_INSTALL_RPM_URL} \
 --filename ${JDK_INSTALL_RPM} \
 --username ${ORACLE_USERNAME} \
 --password ${ORACLE_PASSWORD} && \
 yum-install ${TEMP_DIR}/${JDK_INSTALL_RPM} && \
-{% elif files['linux-x64']['-rpm.bin'] %}
+{% elif version_files['linux-x64']['-rpm.bin'] %}
 python2 downloader.py \
 --url ${JDK_INSTALL_RPM_BIN_URL} \
 --filename ${JDK_INSTALL_RPM_BIN} \
@@ -44,7 +49,27 @@ python2 downloader.py \
 --password ${ORACLE_PASSWORD} && \
 chmod +x ${JDK_INSTALL_RPM_BIN} && \
 ./${JDK_INSTALL_RPM_BIN} && \
-{% endif %}
+{% elif version_files['linux-x64']['bin'] %}
+python2 downloader.py \
+--url ${JDK_INSTALL_BIN_URL} \
+--filename ${JDK_INSTALL_BIN} \
+--username ${ORACLE_USERNAME} \
+--password ${ORACLE_PASSWORD} && \
+mkdir -p ${INSTALL_DIR_ROOT} && \
+mv ${JDK_INSTALL_BIN} ${INSTALL_DIR_ROOT}/ && \
+pushd ${INSTALL_DIR_ROOT} && \
+chmod +x ${JDK_INSTALL_BIN} && \
+./${JDK_INSTALL_BIN} && \
+popd && \
+{% elif version_files['linux-x64']['tar.gz'] %}
+python2 downloader.py \
+--url ${JDK_INSTALL_TAR_GZ_URL} \
+--filename ${JDK_INSTALL_TAR_GZ} \
+--username ${ORACLE_USERNAME} \
+--password ${ORACLE_PASSWORD} && \
+mkdir -p ${INSTALL_DIR} && \
+tar -xzf ${JDK_INSTALL_TAR_GZ} --strip-components=1 -C ${INSTALL_DIR} && \
+{%- endif %}
 python2 downloader.py \
 --url ${JCE_POLICY_ZIP_URL} \
 --filename ${JCE_POLICY_ZIP} \

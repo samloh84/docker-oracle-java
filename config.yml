@@ -5,4 +5,38 @@ base_repositories:
 #  - samloh84/debian
 #  - samloh84/ubuntu
 
-min_version: '>=6.0.0'
+templates:
+  - Dockerfile
+  - Makefile
+
+common_files:
+  - downloader.py
+
+starting_urls:
+  - "http://www.oracle.com/technetwork/java/javase/downloads/index.html"
+  - "http://www.oracle.com/technetwork/java/javase/archive-139210.html"
+  - "http://www.oracle.com/technetwork/es/java/javase/downloads/jce-7-download-432124.html"
+
+url_pattern: '/technetwork/java/(javase|javasebusiness)/downloads/(jdk|server-jre|jre|jce|java-archive(-downloads)?-(javase|java-client|java-plat))'
+
+file_patterns:
+  jdk:
+    rpm: otn(?:-pub)?/java/jdk/(\d+u\d+(?:-b\d+)?)/(?:[0-9a-f]+/)?(jdk-(?:\d+(?:u\d+)?)-(linux.+)(\.rpm))$
+    tar.gz: otn(?:-pub)?/java/jdk/(\d+u\d+(?:-b\d+)?)/(?:[0-9a-f]+/)?(jdk-(?:\d+(?:u\d+)?)-(linux.+)(\.tar\.gz))$
+    -rpm.bin: otn(?:-pub)?/java/jdk/(\d+u\d+(?:-b\d+)?)/(?:[0-9a-f]+/)?(jdk-(?:\d+(?:u\d+)?)-(linux.+)(-rpm\.bin))$
+    bin: otn(?:-pub)?/java/jdk/(\d+u\d+(?:-b\d+)?)/(?:[0-9a-f]+/)?(jdk-(?:\d+(?:u\d+)?)-(linux.+)(\.bin))$
+
+  jre:
+    rpm: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(jre-(?:\d+(?:u\d+)?)-(linux.+)(\.rpm))$
+    tar.gz: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(jre-(?:\d+(?:u\d+)?)-(linux.+)(\.tar\.gz))$
+    -rpm.bin: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(jre-(?:\d+(?:u\d+)?)-(linux.+)(-rpm\.bin))$
+    bin: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(jre-(?:\d+(?:u\d+)?)-(linux.+)(\.bin))$
+
+  server-jre:
+    rpm: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(server-jre-(?:\d+(?:u\d+)?)-(linux.+)(\.rpm))$
+    tar.gz: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(server-jre-(?:\d+(?:u\d+)?)-(linux.+)(\.tar\.gz))$
+    -rpm.bin: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(server-jre-(?:\d+(?:u\d+)?)-(linux.+)(-rpm\.bin))$
+    bin: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(server-jre-(?:\d+(?:u\d+)?)-(linux.+)(\.bin))$
+
+  jce:
+    zip: otn-pub/java/jce(?:_policy)?/(\d+)/((?:jce_policy-|UnlimitedJCEPolicyJDK)(?:\d+)(\.zip))
