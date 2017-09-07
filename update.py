@@ -51,12 +51,17 @@ def render_java_dockerfiles(data, config, update_all_versions=False, force_updat
                     tags = [version, version + '-' + base_repository_name + base_repository_tag]
 
                     version_info = semver.parse_version_info(convert_java_version_to_semver(version))
+
+                    base_os = re.compile('centos|alpine|ubuntu|debian|fedora|rhel').search(
+                        base_repository_name + base_repository_tag).group(0)
+
                     render_data = {
                         'product': product,
                         'version': version,
                         'version_info': version_info,
-                        'version_files': version_files,
+                        'files': version_files,
                         'base_repository_name': base_repository_name,
+                        'base_os': base_os,
                         'base_image_name': base_image_name,
                         'config': config,
                         'repository_name': repository_name + '-' + product,
