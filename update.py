@@ -24,6 +24,7 @@ def render_java_dockerfiles(data, config, update_all_versions=False, force_updat
     base_repositories = config['base_repositories']
     template_files = config['templates']
     common_files = config['common_files']
+    registries = config.get('registries')
 
     for product in ['jdk', 'jre', 'server-jre']:
 
@@ -66,7 +67,8 @@ def render_java_dockerfiles(data, config, update_all_versions=False, force_updat
                         'config': config,
                         'repository_name': repository_name + '-' + product,
                         'tags': tags,
-                        'jce': data['products']['jce'][str(version_info.major)]
+                        'jce': data['products']['jce'][str(version_info.major)],
+                        'registries': registries
                     }
 
                     for template_file in template_files:
