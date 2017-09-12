@@ -19,7 +19,7 @@ build:
 
 push:
 	set -x; \
-	for TAG in $(TAGS); do sudo docker push $(REPOSITORY_NAME):$${TAG}; done
+	for TAG in $(TAGS); do sudo docker push $(REPOSITORY_NAME):$${TAG}; done;
 
 run:
 	set -x; \

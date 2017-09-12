@@ -70,8 +70,8 @@ class OracleJavaScraper:
                 else:
                     url_version = match.group(1)
                     filename = match.group(2)
-                    os = match.group(3)
-                    path = [product, url_version, os, extension]
+                    distribution_os = match.group(3)
+                    path = [product, url_version, distribution_os, extension]
 
                 _set(version_files, path, {
                     'filename': filename,
