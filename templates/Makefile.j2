@@ -1,7 +1,7 @@
 REPOSITORY_NAME := {{ repository_name }}
 {% if registries -%}
 REGISTRIES := {{ registries | join(' ') }}
-{%- endif -%}
+{% endif -%}
 TAGS := {{ tags | join(' ') }}
 CONTAINER_NAME := $(shell echo $(REPOSITORY_NAME) | sed -e 's/[^a-zA-Z0-9_.-]/-/g')
 
@@ -24,7 +24,7 @@ build:
 	DOCKER_BUILD_ARGS+="-t $${REGISTRY}/$(REPOSITORY_NAME):$${TAG} "; \
 	done; \
 	done; \
-	{%- endif -%}
+	{% endif -%}
 	sudo docker build $${DOCKER_BUILD_ARGS} .
 
 push:
