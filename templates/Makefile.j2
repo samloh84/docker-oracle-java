@@ -34,7 +34,7 @@ push:
 	for TAG in $(TAGS); do \
 	sudo docker push $${REGISTRY}/$(REPOSITORY_NAME):$${TAG}; \
 	done; \
-	done; \
+	done;
 	{%- else -%}
 	for TAG in $(TAGS); do sudo docker push $(REPOSITORY_NAME):$${TAG}; done;
 	{%- endif %}

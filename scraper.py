@@ -42,8 +42,9 @@ class OracleJavaScraper:
             curr_responses = http_multiget(urls_to_parse)
             responses += curr_responses
             parsed_urls = [url for (url, _) in responses]
-            urls_to_parse = map(lambda (url, response): parse_html_for_urls(response.text, url, regex_filters=url_pattern),
-                                curr_responses)
+            urls_to_parse = map(
+                lambda (url, response): parse_html_for_urls(response.text, url, regex_filters=url_pattern),
+                curr_responses)
             urls_to_parse = _flatten(urls_to_parse)
             urls_to_parse = [url for url in urls_to_parse if url not in parsed_urls]
 
