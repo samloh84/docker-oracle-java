@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [[ -f ${JAVA_HOME}/bin/javac ]]; then
+CA_CERTS_PATH=${JAVA_HOME}/jre/lib/security/cacerts
+else
+CA_CERTS_PATH=${JAVA_HOME}/lib/security/cacerts
+fi
+
+
+for FILE in $@; do
+FILE_BASE_NAME=$(basename ${FILE})
+EXTENSION="${FILE_BASE_NAME##*.}"
+FILENAME="${FILE_BASE_NAME%.*}"
+keytool -keystore ${CA_CERTS_PATH} -storepass changeit -importcert -alias ${FILENAME} -file ${FILE} -noprompt
+done
+

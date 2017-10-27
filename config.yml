@@ -14,6 +14,7 @@ templates:
 
 common_files:
   - downloader.py
+  - java-import-ca-cert
 
 starting_urls:
   - "http://www.oracle.com/technetwork/java/javase/downloads/index.html"
@@ -24,22 +25,22 @@ url_pattern: '/technetwork/java/(javase|javasebusiness)/downloads/(jdk|server-jr
 
 file_patterns:
   jdk:
-    rpm: otn(?:-pub)?/java/jdk/(\d+u\d+(?:-b\d+)?)/(?:[0-9a-f]+/)?(jdk-(?:\d+(?:u\d+)?)-(linux.+)(\.rpm))$
-    tar.gz: otn(?:-pub)?/java/jdk/(\d+u\d+(?:-b\d+)?)/(?:[0-9a-f]+/)?(jdk-(?:\d+(?:u\d+)?)-(linux.+)(\.tar\.gz))$
-    -rpm.bin: otn(?:-pub)?/java/jdk/(\d+u\d+(?:-b\d+)?)/(?:[0-9a-f]+/)?(jdk-(?:\d+(?:u\d+)?)-(linux.+)(-rpm\.bin))$
-    bin: otn(?:-pub)?/java/jdk/(\d+u\d+(?:-b\d+)?)/(?:[0-9a-f]+/)?(jdk-(?:\d+(?:u\d+)?)-(linux.+)(\.bin))$
+    rpm: otn(?:-pub)?/java/jdk/(\d+u\d+(?:-b\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)/(?:[0-9a-f]+/)?(jdk-(?:\d+(?:u\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)-(linux.+)(\.rpm))$
+    tar.gz: otn(?:-pub)?/java/jdk/(\d+u\d+(?:-b\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)/(?:[0-9a-f]+/)?(jdk-(?:\d+(?:u\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)-(linux.+)(\.tar\.gz))$
+    -rpm.bin: otn(?:-pub)?/java/jdk/(\d+u\d+(?:-b\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)/(?:[0-9a-f]+/)?(jdk-(?:\d+(?:u\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)-(linux.+)(-rpm\.bin))$
+    bin: otn(?:-pub)?/java/jdk/(\d+u\d+(?:-b\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)/(?:[0-9a-f]+/)?(jdk-(?:\d+(?:u\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)-(linux.+)(\.bin))$
 
   jre:
-    rpm: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(jre-(?:\d+(?:u\d+)?)-(linux.+)(\.rpm))$
-    tar.gz: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(jre-(?:\d+(?:u\d+)?)-(linux.+)(\.tar\.gz))$
-    -rpm.bin: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(jre-(?:\d+(?:u\d+)?)-(linux.+)(-rpm\.bin))$
-    bin: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(jre-(?:\d+(?:u\d+)?)-(linux.+)(\.bin))$
+    rpm: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)/(?:[0-9a-f]+/)?(jre-(?:\d+(?:u\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)-(linux.+)(\.rpm))$
+    tar.gz: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)/(?:[0-9a-f]+/)?(jre-(?:\d+(?:u\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)-(linux.+)(\.tar\.gz))$
+    -rpm.bin: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)?)/(?:[0-9a-f]+/)?(jre-(?:\d+(?:u\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)-(linux.+)(-rpm\.bin))$
+    bin: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)/(?:[0-9a-f]+/)?(jre-(?:\d+(?:u\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)-(linux.+)(\.bin))$
 
   server-jre:
-    rpm: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(server-jre-(?:\d+(?:u\d+)?)-(linux.+)(\.rpm))$
-    tar.gz: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(server-jre-(?:\d+(?:u\d+)?)-(linux.+)(\.tar\.gz))$
-    -rpm.bin: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(server-jre-(?:\d+(?:u\d+)?)-(linux.+)(-rpm\.bin))$
-    bin: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?)/(?:[0-9a-f]+/)?(server-jre-(?:\d+(?:u\d+)?)-(linux.+)(\.bin))$
+    rpm: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)/(?:[0-9a-f]+/)?(server-jre-(?:\d+(?:u\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)-(linux.+)(\.rpm))$
+    tar.gz: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)/(?:[0-9a-f]+/)?(server-jre-(?:\d+(?:u\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)-(linux.+)(\.tar\.gz))$
+    -rpm.bin: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)?)/(?:[0-9a-f]+/)?(server-jre-(?:\d+(?:u\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)-(linux.+)(-rpm\.bin))$
+    bin: otn(?:-pub)?/java/jdk/(\d+(?:u\d+)?(?:-b\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)/(?:[0-9a-f]+/)?(server-jre-(?:\d+(?:u\d+)?|\d+\.\d+\.\d+(?:-.+)?(?:\+.+)?)-(linux.+)(\.bin))$
 
   jce:
     zip: otn-pub/java/jce(?:_policy)?/(\d+)/((?:jce_policy-|UnlimitedJCEPolicyJDK)(?:\d+)(\.zip))

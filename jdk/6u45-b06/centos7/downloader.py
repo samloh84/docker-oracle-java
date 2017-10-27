@@ -1,11 +1,12 @@
 #!/usr/bin/env python2
+from HTMLParser import HTMLParser
 import argparse
 import cookielib
 import re
-import urllib
-import urllib2
+import requests
 import os
 import sys
+import urlparse
 
 DEFAULT_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36"
 ORACLE_LOGIN_URL = "https://login.oracle.com/oam/server/sso/auth_cred_submit"
@@ -13,101 +14,118 @@ ORACLE_LOGIN_URL = "https://login.oracle.com/oam/server/sso/auth_cred_submit"
 
 class Agent:
     def __init__(self, user_agent=None, debug=False):
-        self.cookies = cookielib.LWPCookieJar()
-        handlers = [
-            urllib2.HTTPHandler(debuglevel=1 if debug else None),
-            urllib2.HTTPSHandler(debuglevel=1 if debug else None),
-            urllib2.HTTPCookieProcessor(self.cookies)
-        ]
-        self.opener = urllib2.build_opener(*handlers)
-
-        self.opener.addheaders = [("Accept", "text/html"),
-                                  ("User-Agent", user_agent if user_agent is not None else DEFAULT_USER_AGENT)]
-
-        cookie = cookielib.Cookie(
-            None,
-            'oraclelicense',
-            'accept-securebackup-cookie',
-            None, False,
-            '.oracle.com', True, True,
-            '/', True,
-            False,
-            None,
-            False,
-            None,
-            None,
-            False
-        )
-
-        self.cookies.set_cookie(cookie)
+        self.session = requests.Session()
+        self.session.cookies.set('oraclelicense', 'accept-securebackup-cookie', domain='.oracle.com', path='/')
+        self.addheaders = {"Accept": "text/html",
+                           "User-Agent": user_agent if user_agent is not None else DEFAULT_USER_AGENT}
 
     def get(self, url):
-        request = urllib2.Request(url)
-        response = self.opener.open(request)
-        return response
+        return self.session.get(url, headers=self.addheaders)
 
     def post(self, url, data):
-        if isinstance(data, dict):
-            data = urllib.urlencode(data)
-
-        request = urllib2.Request(url, data=data)
-        request.get_method = lambda: 'POST'
-        response = self.opener.open(request)
-
-        return response
+        return self.session.post(url, data)
 
 
 def download_oracle_java(url, filename, username, password, agent=None):
     if agent is None:
         agent = Agent()
+    oam_redirect_pattern = re.compile('JavaScript is required. Enable JavaScript to use OAM Server.')
+    jump_page_pattern = re.compile('Logging in. Please wait...')
+    jump_page2_pattern = re.compile('If you are not automatically transferred to the target, click here.')
 
     response = agent.get(url)
-    if response.headers.get('Content-Type').startswith('text/html'):
-        form = parse_login_form(html=response.read())
-        form_data = {
-            'v': 'v1.4',
-            'OAM_REQ': form['OAM_REQ'],
-            'site2pstoretoken': form['site2pstoretoken'],
-            'locale': '',
-            'ssousername': username,
-            'password': password
-        }
 
-        response = agent.post(ORACLE_LOGIN_URL, data=form_data)
+    if response.headers.get('Content-Type').startswith('text/html'):
+
+        if oam_redirect_pattern.search(response.text) is not None:
+            oam_form = parse_form(response.text)
+            oam_redirect_url = urlparse.urljoin(response.url, oam_form['attributes']['action'])
+            response = agent.post(oam_redirect_url,
+                                  data=oam_form['fields'])
+
+        login_form = parse_form(html=response.text)
+        login_form_data = {}
+        login_form_data.update(login_form['fields'])
+        login_form_data.update({
+            'userid': username,
+            'pass': password
+        })
+
+        login_form_url = urlparse.urljoin(response.url, login_form['attributes']['action'])
+        response = agent.post(login_form_url, data=login_form_data)
+
+        if response.headers.get('Content-Type').startswith('text/html') \
+                and jump_page_pattern.search(response.text) is not None:
+            jump_page_meta = parse_meta(response.text)
+            refresh_meta_pattern = re.compile('URL=(.*)')
+            jump_page_url = refresh_meta_pattern.search(jump_page_meta['refresh']).group(1)
+            jump_page_url = urlparse.urljoin(response.url, jump_page_url)
+            response = agent.get(jump_page_url)
+
+        if jump_page2_pattern.search(response.text) is not None:
+            jump_page2_form = parse_form(response.text)
+            jump_page2_redirect_url = urlparse.urljoin(response.url, jump_page2_form['attributes']['action'])
+            response = agent.post(jump_page2_redirect_url,
+                                  data=jump_page2_form['fields'])
+
+    if response.headers.get('Content-Type').startswith('text/html'):
+        raise RuntimeError('Invalid content type')
 
     with open(filename, mode='w') as file_handle:
-        file_handle.write(response.read())
+        file_handle.write(response.content)
 
 
-def parse_login_form(html):
-    def parse_attributes(attributes_string):
-        tag_attributes = {}
-        attribute_pattern = re.compile('(\w+)="([^"]+)"')
-        for attribute_pattern_match in attribute_pattern.finditer(attributes_string):
-            tag_attributes[attribute_pattern_match.group(1)] = attribute_pattern_match.group(2)
-        return tag_attributes
+def parse_meta(html):
+    class MetaParser(HTMLParser):
+        def __init__(self):
+            HTMLParser.__init__(self)
+            self.meta = {}
 
-    form_tag_pattern = re.compile('<form([^>]+)>(.+)</form>')
-    input_tag_pattern = re.compile('<input([^>]+)>')
+        def handle_starttag(self, tag, attrs):
+            if tag == 'meta':
+                attributes = dict((key, value) for key, value in attrs)
 
-    form_tag_pattern_match = form_tag_pattern.search(html)
-    form_attributes_string = form_tag_pattern_match.group(1)
-    form_contents = form_tag_pattern_match.group(2)
+                if attributes.get('http-equiv') is not None:
+                    self.meta[attributes.get('http-equiv')] = attributes.get('content')
 
-    form_tag_attributes = parse_attributes(form_attributes_string)
+                return self.meta
 
-    form = {}
+    parser = MetaParser()
 
-    for input_tag_pattern_match in input_tag_pattern.finditer(form_contents):
-        input_attributes_string = input_tag_pattern_match.group(1)
-        input_tag_attributes = parse_attributes(input_attributes_string)
+    parser.feed(html)
+    parser.close()
 
-        name = input_tag_attributes.get('name')
-        value = input_tag_attributes.get('value')
-        if name:
-            form[name] = value
+    return parser.meta
 
-    return form
+
+def parse_form(html):
+    class FormParser(HTMLParser):
+
+        def __init__(self):
+            HTMLParser.__init__(self)
+            self.in_form = False
+            self.form = {'attributes': {}, 'fields': {}}
+
+        def handle_starttag(self, tag, attrs):
+
+            if tag == 'form':
+                self.in_form = True
+                self.form['attributes'] = dict((key, value) for key, value in attrs)
+            if self.in_form and tag == 'input':
+                attributes = dict((key, value) for key, value in attrs)
+                if attributes.get('name') is not None:
+                    self.form['fields'][attributes['name']] = attributes.get('value')
+
+        def handle_endtag(self, tag):
+            if tag == 'form':
+                self.in_form = False
+
+    parser = FormParser()
+
+    parser.feed(html)
+    parser.close()
+
+    return parser.form
 
 
 def main(argv):

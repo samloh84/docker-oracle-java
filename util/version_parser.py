@@ -102,6 +102,9 @@ def get_latest_version(versions, version_constraints=None,
 
 
 def normalize_version_to_semver(version):
+    if semver._REGEX.match(version):
+        return version
+
     version_patterns = [re.compile('1_(?P<major>\d+)_(?P<minor>\d+)(?:_(?P<patch>\d+))?'),
                         re.compile('(?P<major>\d+)u(?P<minor>\d+)'),
                         re.compile('(?P<major>\d+)')]

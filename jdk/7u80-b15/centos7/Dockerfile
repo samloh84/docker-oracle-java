@@ -17,12 +17,14 @@ ARG JCE_POLICY_ZIP=UnlimitedJCEPolicyJDK7.zip
 
 USER ${ROOT_UID}
 
-COPY downloader.py ${TEMP_DIR}/
+COPY downloader.py java-import-ca-cert ${TEMP_DIR}/
 
 RUN \
-yum-install unzip && \
+yum-install unzip python-requests && \
 mkdir -p ${TEMP_DIR} && \
 pushd ${TEMP_DIR} && \
+cp java-import-ca-cert /usr/local/bin/ && \
+chmod a+xs /usr/local/bin/java-import-ca-cert && \
 python2 downloader.py \
 --url ${JDK_INSTALL_RPM_URL} \
 --filename ${JDK_INSTALL_RPM} \
@@ -38,7 +40,8 @@ python2 downloader.py \
 unzip -qq ${JCE_POLICY_ZIP} -d ${TEMP_DIR}/jce && \
 find ${TEMP_DIR}/jce -name "*.jar" -print0 | xargs -0 mv -t ${INSTALL_DIR}/jre/lib/security && \
 popd && \
-rm -rf ${TEMP_DIR_ROOT}
+rm -rf ${TEMP_DIR_ROOT} && \
+yum-install remove python-requests
 
 ENV JAVA_HOME ${INSTALL_DIR}
 ENV PATH ${JAVA_HOME}/bin:${JAVA_HOME}/jre/bin:${PATH}

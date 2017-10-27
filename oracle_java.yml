@@ -1,4 +1,4 @@
-last_updated: 1507542854
+last_updated: 1509083003
 products:
   jce:
     '6':
@@ -1474,25 +1474,71 @@ products:
       linux-arm32-vfp-hflt:
         tar.gz:
           filename: jdk-8u144-linux-arm32-vfp-hflt.tar.gz
-          url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-arm32-vfp-hflt.tar.gz
+          url: http://download.oracle.com/otn/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-arm32-vfp-hflt.tar.gz
       linux-arm64-vfp-hflt:
         tar.gz:
           filename: jdk-8u144-linux-arm64-vfp-hflt.tar.gz
-          url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-arm64-vfp-hflt.tar.gz
+          url: http://download.oracle.com/otn/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-arm64-vfp-hflt.tar.gz
       linux-i586:
         rpm:
           filename: jdk-8u144-linux-i586.rpm
-          url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-i586.rpm
+          url: http://download.oracle.com/otn/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-i586.rpm
         tar.gz:
           filename: jdk-8u144-linux-i586.tar.gz
-          url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-i586.tar.gz
+          url: http://download.oracle.com/otn/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-i586.tar.gz
       linux-x64:
         rpm:
           filename: jdk-8u144-linux-x64.rpm
-          url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.rpm
+          url: http://download.oracle.com/otn/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.rpm
         tar.gz:
           filename: jdk-8u144-linux-x64.tar.gz
-          url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz
+          url: http://download.oracle.com/otn/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jdk-8u144-linux-x64.tar.gz
+    8u151-b12:
+      linux-arm32-vfp-hflt:
+        tar.gz:
+          filename: jdk-8u151-linux-arm32-vfp-hflt.tar.gz
+          url: http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-arm32-vfp-hflt.tar.gz
+      linux-arm64-vfp-hflt:
+        tar.gz:
+          filename: jdk-8u151-linux-arm64-vfp-hflt.tar.gz
+          url: http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-arm64-vfp-hflt.tar.gz
+      linux-i586:
+        rpm:
+          filename: jdk-8u151-linux-i586.rpm
+          url: http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-i586.rpm
+        tar.gz:
+          filename: jdk-8u151-linux-i586.tar.gz
+          url: http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-i586.tar.gz
+      linux-x64:
+        rpm:
+          filename: jdk-8u151-linux-x64.rpm
+          url: http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.rpm
+        tar.gz:
+          filename: jdk-8u151-linux-x64.tar.gz
+          url: http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jdk-8u151-linux-x64.tar.gz
+    8u152-b16:
+      linux-arm32-vfp-hflt:
+        tar.gz:
+          filename: jdk-8u152-linux-arm32-vfp-hflt.tar.gz
+          url: http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/jdk-8u152-linux-arm32-vfp-hflt.tar.gz
+      linux-arm64-vfp-hflt:
+        tar.gz:
+          filename: jdk-8u152-linux-arm64-vfp-hflt.tar.gz
+          url: http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/jdk-8u152-linux-arm64-vfp-hflt.tar.gz
+      linux-i586:
+        rpm:
+          filename: jdk-8u152-linux-i586.rpm
+          url: http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/jdk-8u152-linux-i586.rpm
+        tar.gz:
+          filename: jdk-8u152-linux-i586.tar.gz
+          url: http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/jdk-8u152-linux-i586.tar.gz
+      linux-x64:
+        rpm:
+          filename: jdk-8u152-linux-x64.rpm
+          url: http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/jdk-8u152-linux-x64.rpm
+        tar.gz:
+          filename: jdk-8u152-linux-x64.tar.gz
+          url: http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/jdk-8u152-linux-x64.tar.gz
     8u20-b26:
       linux-i586:
         rpm:
@@ -3195,17 +3241,47 @@ products:
       linux-i586:
         rpm:
           filename: jre-8u144-linux-i586.rpm
-          url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jre-8u144-linux-i586.rpm
+          url: http://download.oracle.com/otn/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jre-8u144-linux-i586.rpm
         tar.gz:
           filename: jre-8u144-linux-i586.tar.gz
-          url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jre-8u144-linux-i586.tar.gz
+          url: http://download.oracle.com/otn/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jre-8u144-linux-i586.tar.gz
       linux-x64:
         rpm:
           filename: jre-8u144-linux-x64.rpm
-          url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jre-8u144-linux-x64.rpm
+          url: http://download.oracle.com/otn/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jre-8u144-linux-x64.rpm
         tar.gz:
           filename: jre-8u144-linux-x64.tar.gz
-          url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jre-8u144-linux-x64.tar.gz
+          url: http://download.oracle.com/otn/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/jre-8u144-linux-x64.tar.gz
+    8u151-b12:
+      linux-i586:
+        rpm:
+          filename: jre-8u151-linux-i586.rpm
+          url: http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jre-8u151-linux-i586.rpm
+        tar.gz:
+          filename: jre-8u151-linux-i586.tar.gz
+          url: http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jre-8u151-linux-i586.tar.gz
+      linux-x64:
+        rpm:
+          filename: jre-8u151-linux-x64.rpm
+          url: http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jre-8u151-linux-x64.rpm
+        tar.gz:
+          filename: jre-8u151-linux-x64.tar.gz
+          url: http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/jre-8u151-linux-x64.tar.gz
+    8u152-b16:
+      linux-i586:
+        rpm:
+          filename: jre-8u152-linux-i586.rpm
+          url: http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/jre-8u152-linux-i586.rpm
+        tar.gz:
+          filename: jre-8u152-linux-i586.tar.gz
+          url: http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/jre-8u152-linux-i586.tar.gz
+      linux-x64:
+        rpm:
+          filename: jre-8u152-linux-x64.rpm
+          url: http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/jre-8u152-linux-x64.rpm
+        tar.gz:
+          filename: jre-8u152-linux-x64.tar.gz
+          url: http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/jre-8u152-linux-x64.tar.gz
     8u20-b26:
       linux-i586:
         rpm:
@@ -3581,7 +3657,17 @@ products:
       linux-x64:
         tar.gz:
           filename: server-jre-8u144-linux-x64.tar.gz
-          url: http://download.oracle.com/otn-pub/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/server-jre-8u144-linux-x64.tar.gz
+          url: http://download.oracle.com/otn/java/jdk/8u144-b01/090f390dda5b47b9b721c7dfaa008135/server-jre-8u144-linux-x64.tar.gz
+    8u151-b12:
+      linux-x64:
+        tar.gz:
+          filename: server-jre-8u151-linux-x64.tar.gz
+          url: http://download.oracle.com/otn-pub/java/jdk/8u151-b12/e758a0de34e24606bca991d704f6dcbf/server-jre-8u151-linux-x64.tar.gz
+    8u152-b16:
+      linux-x64:
+        tar.gz:
+          filename: server-jre-8u152-linux-x64.tar.gz
+          url: http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/server-jre-8u152-linux-x64.tar.gz
     8u20-b26:
       linux-x64:
         tar.gz:
